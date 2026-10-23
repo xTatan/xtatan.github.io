@@ -228,6 +228,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 .flipped ~ .dock, .dock.hide{transform:translate(-50%,140%)}
 
 @media (prefers-reduced-motion:reduce){.intro{display:none}.wob,.piston,.ndl{animation:none}.rv-on .rv:not(.seen),.rv-on .clients:not(.seen) span{opacity:1;transform:none}.sig path{stroke-dashoffset:0}.sig circle{transform:none}.trace{stroke-dashoffset:0}}
+.desk-tip{font-size:13.5px}.desk-tip a{color:var(--oil)}
 </style>
 </head>
 <body>
@@ -304,7 +305,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
     </div>
 
     <div class="actions">
-      <a class="btn primary in" id="save" data-save style="--d:5" href="assets/eduardo-amigo-ith.vcf" download="Eduardo-Amigo-ITH.vcf">
+      <a class="btn primary in" id="save" data-save style="--d:5" href="assets/eduardo-amigo-ith.vcf">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
         Guardar contacto
       </a>
@@ -357,6 +358,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
      <h3>Escanea y guárdame</h3>
      <div class="qrbox"><div class="beam"></div><img src="assets/qr-contacto.png" alt="Código QR con el contacto de Eduardo Amigo Ferrari" width="240" height="240"></div>
      <p>Apunta la cámara del celular al código: el contacto se agrega directo a la agenda, sin instalar nada.</p>
+     <p class="desk-tip" id="desktip" hidden>¿Estás en el computador? Escanea con tu celular y el contacto queda en tu teléfono. <a href="assets/eduardo-amigo-ith.vcf" id="vcfdl" download="Eduardo-Amigo-ITH.vcf">O descarga el archivo de contacto</a>.</p>
      <div class="btns">
        <button class="btn primary" type="button" data-share>Compartir enlace</button>
        <button class="btn" type="button" id="hideqr">Volver a la tarjeta</button>
@@ -367,7 +369,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
  </div>
 </main>
 <div class="dock" id="dock">
-  <a class="btn primary" href="assets/eduardo-amigo-ith.vcf" download="Eduardo-Amigo-ITH.vcf" data-save>Guardar contacto</a>
+  <a class="btn primary" href="assets/eduardo-amigo-ith.vcf" data-save>Guardar contacto</a>
   <a class="btn icon wa" href="https://wa.me/56998839281" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-5A9 9 0 1 1 8 19.3L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.3-2-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-2L9 9.5z"/></svg></a>
   <button class="btn icon" type="button" id="dockqr" aria-label="Mostrar QR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></button>
 </div>
@@ -468,8 +470,15 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   });
 
   // save feedback
+  // phones open the contact card directly; on a computer, show the QR so the contact lands on the phone
+  var desktop = matchMedia('(hover: hover) and (pointer: fine)').matches && !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  if (desktop) document.getElementById('desktip').hidden = false;
   document.querySelectorAll('[data-save]').forEach(function(a){
-    a.addEventListener('click', function(){ a.classList.remove('done'); void a.offsetWidth; a.classList.add('done'); say('Abriendo contacto para guardar'); });
+    a.addEventListener('click', function(e){
+      a.classList.remove('done'); void a.offsetWidth; a.classList.add('done');
+      if (desktop){ e.preventDefault(); flip(true); say('Escanea el QR con tu celular para guardarlo'); }
+      else say('Abriendo contacto para guardar');
+    });
   });
 
   // sticky dock when the main button leaves the screen
