@@ -283,6 +283,20 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 .sheet .x svg{width:18px;height:18px}
 .req{color:#ff8a8f;font-size:12.5px;margin-top:8px}
 @media (prefers-reduced-motion:reduce){.diag::before{animation:none}}
+
+/* ---------- touch & press ---------- */
+.btn,.copy,.diag,.chip,.chip span,.list a{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.flipper:not(.flipped) .back,.flipper.flipped .front{pointer-events:none}
+.btn{min-height:52px}
+.btn.primary{min-height:60px}
+.row3 .btn{min-height:80px}
+.copy{width:44px;height:44px}
+.btn,.copy,.diag{transition:transform .12s var(--ease),filter .12s,background .2s,border-color .2s}
+.btn.pressing,.copy.pressing,.diag.pressing{transform:scale(.95);filter:brightness(1.2)}
+.btn.primary.pressing{box-shadow:0 4px 14px -6px var(--glow)}
+.chip span.pressing{transform:scale(.94)}
+.list a{display:inline-block;padding:8px 0}
+.inapp{margin:12px 22px 0;padding:10px 12px;border-radius:12px;background:rgba(201,138,26,.14);border:1px solid rgba(201,138,26,.45);color:#f3d9a6;font-size:13px;line-height:1.45}
 </style>
 </head>
 <body>
@@ -337,7 +351,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   <div class="flipper" id="flipper">
 
    <!-- FRONT -->
-   <article class="face front tilt" id="front" aria-label="Tarjeta de contacto">
+   <article class="face front" id="front" aria-label="Tarjeta de contacto">
     <div class="hero" role="img" aria-label="Montaje de un cilindro hidráulico de prensa en planta de celulosa" style="--hero:url('assets/hero.jpg')">
       <div class="ph"></div><div class="scan"></div>
       <div class="plate"><img src="assets/logo.jpg" alt="ITH, Ingeniería y Tecnología Hidráulica" width="510" height="305"></div>
@@ -370,6 +384,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
       </div>
     </div>
 
+    <p class="inapp" id="inapp" hidden>Si "Guardar contacto" no funciona, abre esta tarjeta en el navegador: toca <b>⋯</b> arriba a la derecha → <b>Abrir en el navegador</b>.</p>
     <button class="diag in" type="button" id="opendiag" style="--d:9" aria-haspopup="dialog">
       <span class="ic"><svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 24a12 12 0 1 1 24 0"/><path class="ndl" d="M17 24V13"/><circle cx="17" cy="24" r="2"/><path d="M8 18l2 1M26 18l-2 1M17 10v2"/></svg></span>
       <span><b>Solicitar diagnóstico</b><small>Cuéntanos qué le pasa a tu equipo y te respondemos por WhatsApp.</small></span>
@@ -569,7 +584,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
       nd.style.transform='rotate('+(-90+180*v/MAX)+'deg)';
       if(p<1) requestAnimationFrame(frame); else { msg.textContent='Presión nominal OK'; msg.className='ok'; setTimeout(begin,450); } }
     requestAnimationFrame(frame);
-    intro.addEventListener('click', begin);
+    intro.addEventListener('pointerdown', begin);
     setTimeout(begin, 3500); // safety
   }
 
@@ -592,6 +607,7 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   // phones open the contact card directly; on a computer, show the QR so the contact lands on the phone
   var desktop = matchMedia('(hover: hover) and (pointer: fine)').matches && !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
   if (desktop) document.getElementById('desktip').hidden = false;
+  if (/FBAN|FBAV|Instagram|WhatsApp|Line\/|LinkedInApp|Messenger/i.test(navigator.userAgent)) document.getElementById('inapp').hidden = false;
   document.querySelectorAll('[data-save]').forEach(function(a){
     a.addEventListener('click', function(e){
       a.classList.remove('done'); void a.offsetWidth; a.classList.add('done');
@@ -675,15 +691,18 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   if (!reduce) addEventListener('scroll', function(){ stageSvg.style.transform='translateY('+(-scrollY*0.12)+'px)'; }, {passive:true});
 
 
-  // subtle tilt on desktop pointers
-  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches){
-    front.addEventListener('pointermove', function(e){
-      if (flipper.classList.contains('flipped')) return;
-      var r=front.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-      front.style.transform='rotateY('+(x*6)+'deg) rotateX('+(-y*4)+'deg)';
-    });
-    front.addEventListener('pointerleave', function(){ front.style.transform=''; });
-  }
+  // press feedback: instant, works on touch and mouse
+  document.querySelectorAll('.in').forEach(function(el){
+    el.addEventListener('animationend', function(e){ if(e.target===el && e.animationName==='rise') el.classList.remove('in'); });
+  });
+  function pressTarget(e){ return e.target.closest && e.target.closest('.btn,.copy,.diag,.chip span'); }
+  document.addEventListener('pointerdown', function(e){
+    var t=pressTarget(e); if(!t) return; t.classList.add('pressing');
+    if (navigator.vibrate && e.pointerType==='touch') { try{ navigator.vibrate(8); }catch(_){} }
+  }, {passive:true});
+  ['pointerup','pointercancel','pointerleave','dragstart'].forEach(function(ev){
+    document.addEventListener(ev, function(){ document.querySelectorAll('.pressing').forEach(function(x){ x.classList.remove('pressing'); }); }, {passive:true, capture:true});
+  });
 })();
 </script>
 
