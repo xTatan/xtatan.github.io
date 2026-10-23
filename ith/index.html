@@ -229,6 +229,60 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
 
 @media (prefers-reduced-motion:reduce){.intro{display:none}.wob,.piston,.ndl{animation:none}.rv-on .rv:not(.seen),.rv-on .clients:not(.seen) span{opacity:1;transform:none}.sig path{stroke-dashoffset:0}.sig circle{transform:none}.trace{stroke-dashoffset:0}}
 .desk-tip{font-size:13.5px}.desk-tip a{color:var(--oil)}
+
+/* ---------- diagnóstico ---------- */
+.diag{margin:14px 22px 0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;width:calc(100% - 44px);text-align:left;
+  padding:14px 16px;border-radius:16px;cursor:pointer;color:var(--fg);font:inherit;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(47,123,242,.18),rgba(26,47,158,.12));border:1px solid #2f5d8c}
+.diag::before{content:"";position:absolute;inset:-1px;border-radius:16px;padding:1px;background:conic-gradient(from var(--a,0deg),transparent 0 70%,var(--oil) 85%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 4s linear infinite}
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes spin{to{--a:360deg}}
+.diag .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--oil)}
+.diag .ic svg{width:26px;height:26px}
+.diag b{display:block;font:800 18px/1.1 var(--display);font-stretch:85%}
+.diag small{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.diag .ar{width:20px;height:20px;color:var(--oil);transition:transform .3s var(--ease)}
+.diag:hover .ar{transform:translateX(4px)}
+.diag:focus-visible{outline:3px solid var(--oil);outline-offset:2px}
+
+.sheet-bg{position:fixed;inset:0;z-index:8;background:rgba(3,10,18,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;transition:opacity .35s var(--ease)}
+.sheet{position:fixed;z-index:9;left:50%;bottom:0;width:min(520px,100%);max-height:92vh;max-height:92dvh;overflow:auto;overscroll-behavior:contain;
+  transform:translate(-50%,100%);transition:transform .45s var(--ease);background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;
+  padding:10px max(20px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));box-shadow:0 -20px 60px rgba(0,0,0,.6)}
+.sheet.open{transform:translate(-50%,0)}.sheet-bg.open{opacity:1}
+@media (min-width:640px){.sheet{bottom:auto;top:50%;border-radius:22px;border-bottom:1px solid var(--line);transform:translate(-50%,-40%) scale(.96);opacity:0;transition:transform .4s var(--ease),opacity .3s}
+  .sheet.open{transform:translate(-50%,-50%);opacity:1}}
+.grab{width:42px;height:5px;border-radius:3px;background:var(--line);margin:2px auto 12px}
+.sheet h3{margin:0;padding-right:48px;font:900 30px/1 var(--display);font-stretch:72%;text-transform:uppercase}
+.sheet .sub{margin:6px 0 0;color:var(--muted);font-size:14px}
+.steps{display:flex;gap:6px;margin:16px 0 4px}
+.steps i{flex:1;height:4px;border-radius:2px;background:var(--line);transition:background .3s}
+.steps i.on{background:var(--oil)}
+.fs{border:0;margin:18px 0 0;padding:0;min-width:0}
+.fs legend{padding:0;margin-bottom:10px;font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;gap:6px;padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);font-size:14px;color:#c6d6e8;transition:all .2s var(--ease)}
+.chip input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff;transform:scale(1.03)}
+.chip input:focus-visible+span{outline:3px solid var(--oil);outline-offset:2px}
+.crit .chip span{padding:10px 14px}
+.crit .chip input:checked+span.u{background:#c93a3f;border-color:#c93a3f}
+.crit .chip input:checked+span.a{background:#c98a1a;border-color:#c98a1a}
+.crit .chip input:checked+span.p{background:#2a9d63;border-color:#2a9d63}
+.fld{display:grid;gap:6px;margin-top:12px}
+.fld label{font-size:13px;color:var(--muted)}
+.fld input,.fld textarea{width:100%;font:inherit;font-size:16px;color:var(--fg);background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .2s}
+.fld input:focus,.fld textarea:focus{border-color:var(--oil)}
+.fld textarea{min-height:84px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row2 .fld{min-width:0}
+.prev{margin-top:18px;padding:14px;border-radius:12px;background:#0a1a2b;border:1px dashed var(--line);font:500 12.5px/1.55 var(--mono);color:#b9cbe0;white-space:pre-wrap;overflow-wrap:anywhere}
+.sheet .send{display:grid;gap:10px;margin-top:16px}
+.sheet .x{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);cursor:pointer;display:grid;place-items:center}
+.sheet .x svg{width:18px;height:18px}
+.req{color:#ff8a8f;font-size:12.5px;margin-top:8px}
+@media (prefers-reduced-motion:reduce){.diag::before{animation:none}}
 </style>
 </head>
 <body>
@@ -316,7 +370,13 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
       </div>
     </div>
 
-    <ul class="list in rv" style="--d:9">
+    <button class="diag in" type="button" id="opendiag" style="--d:9" aria-haspopup="dialog">
+      <span class="ic"><svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 24a12 12 0 1 1 24 0"/><path class="ndl" d="M17 24V13"/><circle cx="17" cy="24" r="2"/><path d="M8 18l2 1M26 18l-2 1M17 10v2"/></svg></span>
+      <span><b>Solicitar diagnóstico</b><small>Cuéntanos qué le pasa a tu equipo y te respondemos por WhatsApp.</small></span>
+      <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+
+    <ul class="list in rv" style="--d:10">
       <li><span class="k">Celular</span><span class="v mono"><a href="tel:+56998839281">+56 9 9883 9281</a></span><button class="copy" type="button" data-copy="+56998839281" aria-label="Copiar celular"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></button></li>
       <li><span class="k">Correo</span><span class="v"><a href="mailto:eduardoamigo@ith.cl">eduardoamigo@ith.cl</a></span><button class="copy" type="button" data-copy="eduardoamigo@ith.cl" aria-label="Copiar correo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></button></li>
       <li><span class="k">Web</span><span class="v"><a href="https://www.ith.cl" target="_blank" rel="noopener">www.ith.cl</a></span></li>
@@ -373,6 +433,65 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
   <a class="btn icon wa" href="https://wa.me/56998839281" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-5A9 9 0 1 1 8 19.3L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.3-2-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-2L9 9.5z"/></svg></a>
   <button class="btn icon" type="button" id="dockqr" aria-label="Mostrar QR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></button>
 </div>
+<div class="sheet-bg" id="diagbg" hidden></div>
+<section class="sheet" id="diag" role="dialog" aria-modal="true" aria-labelledby="diag-t" hidden>
+  <div class="grab" aria-hidden="true"></div>
+  <button class="x" type="button" id="closediag" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <h3 id="diag-t">Solicitar diagnóstico</h3>
+  <p class="sub">Cuatro datos y Eduardo tiene lo necesario para preparar el alcance y la visita.</p>
+  <div class="steps" aria-hidden="true"><i id="st1"></i><i id="st2"></i><i id="st3"></i><i id="st4"></i></div>
+  <form id="diagform" novalidate>
+    <fieldset class="fs"><legend>1 · Equipo o unidad</legend>
+      <div class="chips" id="eq">
+        <label class="chip"><input type="radio" name="eq" id="eq1" value="Prensa hidráulica"><span>Prensa</span></label>
+        <label class="chip"><input type="radio" name="eq" id="eq2" value="Unidad hidráulica (HPU)"><span>Unidad hidráulica</span></label>
+        <label class="chip"><input type="radio" name="eq" id="eq3" value="Bomba o motor hidráulico"><span>Bomba / motor</span></label>
+        <label class="chip"><input type="radio" name="eq" id="eq4" value="Cilindro"><span>Cilindro</span></label>
+        <label class="chip"><input type="radio" name="eq" id="eq5" value="Válvulas / bloque de control"><span>Válvulas</span></label>
+        <label class="chip"><input type="radio" name="eq" id="eq6" value="Sistema de lubricación"><span>Lubricación</span></label>
+        <label class="chip"><input type="radio" name="eq" id="eq7" value="Otro"><span>Otro</span></label>
+      </div>
+      <div class="fld"><label for="eqd">Detalle (marca, modelo, ubicación)</label><input id="eqd" name="eqd" autocomplete="off" placeholder="Ej: prensa de fardos línea 2, Valmet"></div>
+    </fieldset>
+    <fieldset class="fs"><legend>2 · Síntoma</legend>
+      <div class="chips" id="sy">
+        <label class="chip"><input type="checkbox" name="sy" id="sy1" value="Pérdida de presión"><span>Pérdida de presión</span></label>
+        <label class="chip"><input type="checkbox" name="sy" id="sy2" value="Fuga de aceite"><span>Fuga de aceite</span></label>
+        <label class="chip"><input type="checkbox" name="sy" id="sy3" value="Temperatura alta"><span>Temperatura alta</span></label>
+        <label class="chip"><input type="checkbox" name="sy" id="sy4" value="Ruido o vibración"><span>Ruido / vibración</span></label>
+        <label class="chip"><input type="checkbox" name="sy" id="sy5" value="Aceite contaminado"><span>Aceite contaminado</span></label>
+        <label class="chip"><input type="checkbox" name="sy" id="sy6" value="Movimiento lento o irregular"><span>Movimiento lento</span></label>
+        <label class="chip"><input type="checkbox" name="sy" id="sy7" value="Mantenimiento preventivo"><span>Preventivo</span></label>
+      </div>
+      <div class="fld"><label for="syd">Describe lo que pasa (opcional)</label><textarea id="syd" name="syd" placeholder="Desde cuándo, presión o temperatura medida, alarmas…"></textarea></div>
+    </fieldset>
+    <fieldset class="fs crit"><legend>3 · Criticidad</legend>
+      <div class="chips">
+        <label class="chip"><input type="radio" name="cr" id="cr1" value="URGENTE: equipo detenido"><span class="u">Equipo detenido</span></label>
+        <label class="chip"><input type="radio" name="cr" id="cr2" value="Alta: opera con falla"><span class="a">Opera con falla</span></label>
+        <label class="chip"><input type="radio" name="cr" id="cr3" value="Programable"><span class="p">Programable</span></label>
+      </div>
+      <div class="fld"><label for="win">Ventana disponible para intervenir</label><input id="win" name="win" autocomplete="off" placeholder="Ej: parada de planta 15 de noviembre"></div>
+    </fieldset>
+    <fieldset class="fs"><legend>4 · Contacto</legend>
+      <div class="row2">
+        <div class="fld" style="margin-top:0"><label for="nm">Nombre</label><input id="nm" name="nm" autocomplete="name"></div>
+        <div class="fld" style="margin-top:0"><label for="co">Empresa / planta</label><input id="co" name="co" autocomplete="organization"></div>
+      </div>
+      <div class="chips" style="margin-top:12px">
+        <label class="chip"><input type="checkbox" name="doc" id="doc1" value="planos"><span>Tengo planos</span></label>
+        <label class="chip"><input type="checkbox" name="doc" id="doc2" value="historial de fallas"><span>Historial de fallas</span></label>
+        <label class="chip"><input type="checkbox" name="doc" id="doc3" value="fotos o videos"><span>Fotos / videos</span></label>
+      </div>
+    </fieldset>
+    <div class="prev" id="prev" aria-live="polite"></div>
+    <p class="req" id="req" hidden>Elige al menos el equipo y la criticidad.</p>
+    <div class="send">
+      <button class="btn primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-5A9 9 0 1 1 8 19.3L3 21z"/></svg>Enviar por WhatsApp</button>
+      <a class="btn" id="diagmail" href="#">Enviar por correo</a>
+    </div>
+  </form>
+</section>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
@@ -488,6 +607,68 @@ h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--li
     new IntersectionObserver(function(es){ var off=!es[0].isIntersecting && es[0].boundingClientRect.top<0;
       dock.classList.toggle('show', off && !flipper.classList.contains('flipped')); }).observe(save);
   }
+
+
+  // ---- solicitar diagnóstico ----
+  (function(){
+    var sh=document.getElementById('diag'), bg=document.getElementById('diagbg'), f=document.getElementById('diagform'),
+        prev=document.getElementById('prev'), req=document.getElementById('req'), mail=document.getElementById('diagmail'), last=null, KEY='ith-diag';
+    function vals(){
+      var g=function(n){var e=f.querySelector('[name="'+n+'"]:checked');return e?e.value:''};
+      var all=function(n){return [].map.call(f.querySelectorAll('[name="'+n+'"]:checked'),function(e){return e.value})};
+      return {eq:g('eq'),eqd:f.eqd.value.trim(),sy:all('sy'),syd:f.syd.value.trim(),cr:g('cr'),win:f.win.value.trim(),nm:f.nm.value.trim(),co:f.co.value.trim(),doc:all('doc')};
+    }
+    function text(v){
+      var L=['Hola Eduardo, solicito un diagnóstico oleohidráulico.',''];
+      L.push('🔧 Equipo: '+(v.eq||'—')+(v.eqd?' ('+v.eqd+')':''));
+      L.push('⚠️ Síntoma: '+(v.sy.length?v.sy.join(', '):'—'));
+      if(v.syd) L.push('📝 Detalle: '+v.syd);
+      L.push('🚦 Criticidad: '+(v.cr||'—'));
+      if(v.win) L.push('📅 Ventana: '+v.win);
+      if(v.doc.length) L.push('📎 Disponible: '+v.doc.join(', '));
+      if(v.nm||v.co) L.push('','👤 '+[v.nm,v.co].filter(Boolean).join(' · '));
+      return L.join('\n');
+    }
+    function update(){
+      var v=vals(), t=text(v); prev.textContent=t;
+      [!!v.eq, v.sy.length>0||!!v.syd, !!v.cr, !!(v.nm||v.co)].forEach(function(ok,i){ document.getElementById('st'+(i+1)).classList.toggle('on',ok); });
+      mail.href='mailto:eduardoamigo@ith.cl?subject='+encodeURIComponent('Solicitud de diagnóstico'+(v.eq?' · '+v.eq:''))+'&body='+encodeURIComponent(t);
+      if(v.eq&&v.cr) req.hidden=true;
+      try{ localStorage.setItem(KEY, JSON.stringify(v)); }catch(e){}
+      return v;
+    }
+    function restore(){
+      var v; try{ v=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+      if(!v) return;
+      ['eqd','syd','win','nm','co'].forEach(function(k){ if(v[k]) f[k].value=v[k]; });
+      f.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(i){
+        var k=i.name, x=v[k]; i.checked = Array.isArray(x) ? x.indexOf(i.value)>-1 : x===i.value; });
+    }
+    function open(){
+      last=document.activeElement; restore(); update();
+      bg.hidden=false; sh.hidden=false; document.body.style.overflow='hidden';
+      requestAnimationFrame(function(){ bg.classList.add('open'); sh.classList.add('open'); });
+      setTimeout(function(){ var c=document.getElementById('eq1'); c && c.focus({preventScroll:true}); }, reduce?0:350);
+    }
+    function close(){
+      bg.classList.remove('open'); sh.classList.remove('open'); document.body.style.overflow='';
+      setTimeout(function(){ bg.hidden=true; sh.hidden=true; }, reduce?0:450);
+      if(last) last.focus({preventScroll:true});
+    }
+    document.getElementById('opendiag').addEventListener('click', open);
+    document.getElementById('closediag').addEventListener('click', close);
+    bg.addEventListener('click', close);
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !sh.hidden) close(); });
+    f.addEventListener('input', update); f.addEventListener('change', update);
+    f.addEventListener('submit', function(e){
+      e.preventDefault(); var v=update();
+      if(!v.eq||!v.cr){ req.hidden=false; req.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'}); return; }
+      var url='https://wa.me/56998839281?text='+encodeURIComponent(text(v));
+      var w=window.open(url,'_blank','noopener'); if(!w) location.href=url;
+      say('Abriendo WhatsApp con tu solicitud');
+    });
+    if (location.hash==='#diagnostico') open();
+  })();
 
   // background circuit parallax
   var stageSvg=document.querySelector('.stage svg');
