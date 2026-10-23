@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Eduardo · ITH">
+<meta property="og:url" content="https://xtatan.github.io/ith/">
+<link rel="canonical" href="https://xtatan.github.io/ith/">
+<title>Eduardo Amigo · ITH</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Eduardo Amigo Ferrari · Ingeniería y Tecnología Hidráulica Ltda. Mantenimiento, diagnóstico e ingeniería oleohidráulica para industria, minería y celulosa.">
+<meta name="theme-color" content="#071524">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Eduardo Amigo Ferrari · ITH">
+<meta property="og:description" content="Ingeniería oleohidráulica para industria, minería y celulosa. Guarda mi contacto en un toque.">
+<meta property="og:image" content="https://xtatan.github.io/ith/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: blueprint stage with a live hydraulic circuit behind one phone-sized card that flips to a QR side. Dark by design. */
+:root{
+  color-scheme:dark;
+  --stage:#071524; --grid:rgba(120,170,230,.07); --pipe:#1b3a5c; --oil:#59a6ff;
+  --surface:#0d2136; --surface-2:#12304d; --fg:#eaf1f8; --muted:#93a9c2; --line:#21405f;
+  --blue:#2f7bf2; --blue-2:#1a2f9e; --glow:rgba(79,143,240,.45); --white:#ffffff; --ink:#0b1f33;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--stage);color:var(--fg);font:400 15px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* blueprint grid + circuit */
+.stage{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(1000px 600px at 50% 10%,rgba(47,123,242,.16),transparent 60%),
+    linear-gradient(var(--grid) 1px,transparent 1px) 0 0/28px 28px,
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/28px 28px}
+.stage svg{position:absolute;inset:0;width:100%;height:100%}
+.pipe{fill:none;stroke:var(--pipe);stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.6s var(--ease) forwards}
+.pipe.p2{animation-delay:.25s}.pipe.p3{animation-delay:.5s}.pipe.p4{animation-delay:.75s}
+.node{fill:var(--stage);stroke:var(--oil);stroke-width:2;opacity:0;animation:pop .5s var(--ease) forwards}
+.sym{fill:none;stroke:#2a5684;stroke-width:1.5;opacity:0;animation:pop .6s var(--ease) forwards}
+.drop{fill:var(--oil);filter:drop-shadow(0 0 4px var(--oil))}
+.tag{font:600 10px var(--mono);fill:#3d6a98;letter-spacing:.08em;opacity:0;animation:pop .6s 1.6s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+
+.wrap{position:relative;z-index:1;max-width:460px;margin:0 auto;padding-block:20px 104px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* flip card */
+.scene{perspective:1600px}
+.flipper{display:grid;transform-style:preserve-3d;transition:transform .9s var(--ease)}
+.flipper.flipped{transform:rotateY(180deg)}
+.face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.02) inset}
+.back{transform:rotateY(180deg);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:18px;padding:36px 24px;text-align:center;
+  background:radial-gradient(500px 300px at 50% 0%,rgba(47,123,242,.25),transparent 70%),var(--surface)}
+.tilt{transition:transform .4s var(--ease);will-change:transform}
+
+/* hero */
+.hero{position:relative;aspect-ratio:16/11;max-width:100%;overflow:hidden;background:var(--ink)}
+.hero .ph{position:absolute;inset:-6%;background:center 40%/cover no-repeat;background-image:var(--hero);animation:kb 18s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(-2%,2%)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,21,36,.1) 0%,rgba(7,21,36,.35) 45%,var(--surface) 100%)}
+.scan{position:absolute;left:0;right:0;height:2px;top:0;z-index:1;background:linear-gradient(90deg,transparent,var(--oil),transparent);opacity:.0;animation:scan 2.2s .6s var(--ease) 1 forwards}
+@keyframes scan{0%{top:0;opacity:.9}100%{top:100%;opacity:0}}
+.plate{position:absolute;left:20px;bottom:18px;z-index:2;background:var(--white);border-radius:14px;padding:10px 12px;width:150px;
+  box-shadow:0 14px 30px -12px rgba(0,0,0,.7);transform:translateY(16px) scale(.94);opacity:0;animation:rise .8s .9s var(--ease) forwards}
+.plate img{display:block;width:100%;height:auto}
+.live{position:absolute;right:16px;top:16px;z-index:2;display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;
+  background:rgba(7,21,36,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font:600 10.5px/1 var(--mono);letter-spacing:.1em;color:#cfe0f3;text-transform:uppercase}
+.live i{width:7px;height:7px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+
+/* identity */
+.id{padding:18px 22px 0}
+h1{margin:0;font:900 40px/.95 var(--display);font-stretch:72%;letter-spacing:-.005em;text-transform:uppercase;text-wrap:balance}
+h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:2px}
+h1 .w span{display:inline-block;transform:translateY(105%);animation:up .9s var(--ease) forwards}
+h1 .w:nth-child(2) span{animation-delay:.12s}h1 .w:nth-child(3) span{animation-delay:.24s;color:var(--oil)}
+@keyframes up{to{transform:none}}
+.role{margin:12px 0 0;font-weight:600}
+.org{margin:1px 0 0;color:var(--muted);font-size:14px}
+.pitch{margin:16px 0 0;padding:12px 14px;border-radius:12px;background:var(--surface-2);font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.in{opacity:0;transform:translateY(12px);animation:rise .8s var(--ease) forwards;animation-delay:calc(1s + var(--d,0) * 90ms)}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* gauges */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px 22px 0}
+.stat{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px 10px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);text-align:center;min-width:0}
+.stat svg{width:64px;height:38px;overflow:visible}
+.stat .arc{fill:none;stroke:var(--line);stroke-width:5;stroke-linecap:round}
+.stat .val{fill:none;stroke:var(--oil);stroke-width:5;stroke-linecap:round;stroke-dasharray:var(--len) 999;stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.8s var(--ease)}
+.stat .needle{stroke:var(--fg);stroke-width:2;stroke-linecap:round;transform-origin:32px 34px;transform:rotate(-90deg);transition:transform 1.8s var(--ease)}
+.stat b{font:800 22px/1 var(--display);font-stretch:80%;font-variant-numeric:tabular-nums}
+.stat small{color:var(--muted);font-size:11px;line-height:1.25}
+
+/* actions */
+.actions{display:grid;gap:10px;padding:18px 22px 0}
+.btn{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 14px;border-radius:14px;overflow:hidden;
+  font:600 15px/1 var(--body);text-decoration:none;color:var(--fg);background:var(--surface-2);border:1px solid var(--line);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:hover{border-color:#2f5d8c}
+.btn:focus-visible{outline:3px solid var(--oil);outline-offset:2px}
+.btn:active{transform:scale(.98)}
+.btn.primary{min-height:56px;font-size:16px;color:#fff;border:0;background:linear-gradient(135deg,var(--blue),var(--blue-2));box-shadow:0 12px 30px -10px var(--glow)}
+.btn.primary::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);animation:shine 3.6s 2.2s infinite}
+@keyframes shine{0%{left:-60%}35%,100%{left:130%}}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.row3 .btn{flex-direction:column;gap:7px;min-height:74px;font-size:13px}
+.wa svg{color:#3ddc84}
+
+.list{list-style:none;margin:18px 22px 0;padding:0}
+.list li{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line);min-width:0}
+.list .k{width:70px;flex:none;color:var(--muted);font:600 10.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.1em}
+.list .v{min-width:0;flex:1;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.list a{color:var(--fg);text-decoration:none;font-weight:500}
+.list a:hover{color:var(--oil)}
+.copy{flex:none;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.copy svg{width:16px;height:16px}.copy:hover{color:var(--fg)}
+.mono{font-family:var(--mono);font-size:14px}
+
+section.block{padding:22px 22px 0}
+h2{margin:0 0 12px;display:flex;align-items:center;gap:10px;font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.spec{display:grid;gap:8px}
+.spec div{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.spec svg{width:34px;height:34px;color:var(--oil)}
+.spec b{display:block;font:800 17px/1.15 var(--display);font-stretch:85%}
+.spec span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+.clients{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.clients span{padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;color:#c6d6e8}
+
+.foot{display:flex;flex-direction:column;gap:10px;padding:22px}
+.foot .meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px;padding-top:14px;border-top:1px solid var(--line)}
+
+/* back face */
+.back .logo{background:var(--white);border-radius:12px;padding:8px 10px;width:120px}
+.back .logo img{display:block;width:100%;height:auto}
+.back h3{margin:0;font:900 30px/1 var(--display);font-stretch:72%;text-transform:uppercase}
+.back p{margin:0;color:var(--muted);max-width:30ch}
+.qrbox{position:relative;background:#fff;border-radius:18px;padding:14px;box-shadow:0 0 0 6px rgba(79,143,240,.15),0 20px 50px -20px var(--glow)}
+.qrbox img{display:block;width:min(240px,62vw);height:auto;image-rendering:pixelated}
+.qrbox::before,.qrbox::after{content:"";position:absolute;width:26px;height:26px;border:3px solid var(--oil)}
+.qrbox::before{left:-10px;top:-10px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+.qrbox::after{right:-10px;bottom:-10px;border-left:0;border-top:0;border-radius:0 0 8px 0}
+.back .btns{display:grid;gap:10px;width:100%;max-width:300px}
+
+.toast{position:fixed;z-index:5;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--white);color:var(--ink);
+  padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .drop{display:none}.hero .ph{animation:none}
+}
+
+/* ---------- v3: more motion ---------- */
+.pre .stage *, .pre .wrap *, .pre .wrap *::before, .pre .wrap *::after{animation-play-state:paused!important}
+.intro{position:fixed;inset:0;z-index:20;display:grid;place-items:center;align-content:center;gap:14px;background:var(--stage);
+  transition:opacity .6s var(--ease),transform .6s var(--ease);cursor:pointer}
+.intro.out{opacity:0;transform:scale(1.06);pointer-events:none}
+.intro .g{position:relative;width:200px;height:120px}
+.intro svg{width:100%;height:100%;overflow:visible}
+.intro .tk{stroke:#2a5684;stroke-width:2}
+.intro .tk.r{stroke:#e5484d}
+.intro .arc2{fill:none;stroke:var(--line);stroke-width:8;stroke-linecap:round}
+.intro .fill{fill:none;stroke:url(#gg);stroke-width:8;stroke-linecap:round;stroke-dasharray:0 999}
+.intro .nd{stroke:var(--fg);stroke-width:3;stroke-linecap:round;transform-origin:100px 100px;transform:rotate(-90deg)}
+.intro .hub{fill:var(--fg)}
+.intro .num{position:absolute;left:0;right:0;bottom:-6px;text-align:center;font:800 34px/1 var(--display);font-stretch:80%;font-variant-numeric:tabular-nums}
+.intro .num small{font:600 12px var(--mono);color:var(--muted);letter-spacing:.1em;margin-left:4px}
+.intro p{margin:18px 0 0;font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.intro p.ok{color:#3ddc84}
+.intro .skip{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font-size:12px;color:#5c7896}
+
+.sig{display:block;width:100%;max-width:300px;height:14px;margin-top:10px;overflow:visible}
+.sig path{fill:none;stroke:var(--blue);stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s .55s var(--ease) forwards}
+.sig circle{fill:var(--blue);transform-box:fill-box;transform-origin:center;transform:scale(0);animation:dot .4s var(--ease) forwards}
+.sig circle:first-of-type{animation-delay:.45s}.sig circle:last-of-type{animation-delay:1.55s}
+.sig .run{fill:#fff;filter:drop-shadow(0 0 5px var(--oil));animation:none;transform:none;opacity:0}
+@keyframes dot{to{transform:scale(1)}}
+
+.wob{transform-origin:32px 34px;animation:wob 2.6s ease-in-out infinite}
+.stat:nth-child(2) .wob{animation-duration:3.1s}.stat:nth-child(3) .wob{animation-duration:2.2s}
+@keyframes wob{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.8deg)}}
+
+.piston{animation:piston 2.4s ease-in-out infinite}
+@keyframes piston{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.ndl{transform-origin:17px 24px;animation:sweep 3s ease-in-out infinite}
+@keyframes sweep{0%,100%{transform:rotate(-55deg)}50%{transform:rotate(25deg)}}
+.trace{stroke-dasharray:1;stroke-dashoffset:1}
+.seen .trace,.spec .seen .trace{animation:draw 1.4s .2s var(--ease) forwards}
+
+.rv-on .rv{transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv-on .rv:not(.seen){opacity:0;transform:translateY(26px)}
+.rv-on .clients span{transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.rv-on .clients:not(.seen) span{opacity:0;transform:scale(.8)}
+.clients span:nth-child(2){transition-delay:.06s}.clients span:nth-child(3){transition-delay:.12s}.clients span:nth-child(4){transition-delay:.18s}.clients span:nth-child(5){transition-delay:.24s}
+
+.rip{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .6s ease-out forwards}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.btn.done svg{animation:pop2 .5s var(--ease)}
+@keyframes pop2{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+
+.beam{position:absolute;left:14px;right:14px;height:3px;top:14px;border-radius:3px;background:linear-gradient(90deg,transparent,var(--oil),transparent);
+  box-shadow:0 0 14px 2px var(--glow);opacity:0}
+.flipped .beam{animation:beam 2.4s .8s ease-in-out infinite}
+@keyframes beam{0%{top:14px;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:calc(100% - 17px);opacity:0}}
+.flipped .qrbox::before,.flipped .qrbox::after{animation:corner 1.6s ease-in-out infinite}
+@keyframes corner{50%{transform:scale(1.15)}}
+
+.dock{position:fixed;z-index:4;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(428px,calc(100% - 32px));transform:translate(-50%,140%);
+  transition:transform .5s var(--ease);display:flex;gap:8px;padding:8px;border-radius:18px;background:rgba(13,33,54,.82);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:0 18px 40px -12px rgba(0,0,0,.7)}
+.dock.show{transform:translate(-50%,0)}
+.dock .btn{min-height:46px;flex:1}
+.dock .btn.icon{flex:0 0 46px;padding:0}
+.flipped ~ .dock, .dock.hide{transform:translate(-50%,140%)}
+
+@media (prefers-reduced-motion:reduce){.intro{display:none}.wob,.piston,.ndl{animation:none}.rv-on .rv:not(.seen),.rv-on .clients:not(.seen) span{opacity:1;transform:none}.sig path{stroke-dashoffset:0}.sig circle{transform:none}.trace{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+
+
+<script>document.documentElement.classList.add('pre')</script>
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="g">
+    <svg viewBox="0 0 200 110">
+      <defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#2f7bf2"/><stop offset=".75" stop-color="#59a6ff"/><stop offset="1" stop-color="#e5484d"/></linearGradient></defs>
+      <path class="arc2" d="M20 100 A80 80 0 0 1 180 100"/>
+      <path class="fill" id="ifill" d="M20 100 A80 80 0 0 1 180 100"/>
+      <g id="ticks"></g>
+      <line class="nd" id="ind" x1="100" y1="100" x2="100" y2="34"/>
+      <circle class="hub" cx="100" cy="100" r="6"/>
+    </svg>
+    <div class="num"><span id="ibar">0</span><small>BAR</small></div>
+  </div>
+  <p id="imsg">Presurizando sistema</p>
+  <div class="skip">Toca para saltar</div>
+</div>
+<div class="stage" aria-hidden="true">
+  <svg viewBox="0 0 400 900" preserveAspectRatio="xMidYMid slice">
+    <path id="c1" class="pipe" pathLength="1" d="M-10 120 H70 V300 H20 V520 H90 V760 H-10"/>
+    <path id="c2" class="pipe p2" pathLength="1" d="M410 80 H330 V240 H385 V470 H310 V690 H410"/>
+    <path id="c3" class="pipe p3" pathLength="1" d="M70 300 H120 M310 470 H270"/>
+    <path id="c4" class="pipe p4" pathLength="1" d="M20 520 V600 H-10 M385 240 V170 H410"/>
+    <g class="sym" style="animation-delay:1.2s">
+      <rect x="56" y="180" width="28" height="22"/><path d="M60 196 l20 -12 M74 184 h6 v6"/>
+      <circle cx="90" cy="640" r="12"/><path d="M83 646 l7 -12 l7 12z"/>
+      <rect x="316" y="560" width="28" height="22"/><path d="M320 571 h20 M334 566 l6 5 l-6 5"/>
+      <path d="M371 330 h28 M385 318 v24 M378 324 l14 12"/>
+    </g>
+    <g style="animation-delay:1.4s">
+      <circle class="node" cx="70" cy="120" r="4" style="animation-delay:1.3s"/>
+      <circle class="node" cx="20" cy="520" r="4" style="animation-delay:1.45s"/>
+      <circle class="node" cx="330" cy="240" r="4" style="animation-delay:1.6s"/>
+      <circle class="node" cx="310" cy="690" r="4" style="animation-delay:1.75s"/>
+    </g>
+    <text class="tag" x="94" y="194">P1 · 185 bar</text>
+    <text class="tag" x="250" y="555">ISO 4406</text>
+    <text class="tag" x="110" y="645">M</text>
+    <circle class="drop" r="3"><animateMotion dur="7s" begin="2s" repeatCount="indefinite"><mpath href="#c1"/></animateMotion></circle>
+    <circle class="drop" r="3"><animateMotion dur="7s" begin="5.5s" repeatCount="indefinite"><mpath href="#c1"/></animateMotion></circle>
+    <circle class="drop" r="3"><animateMotion dur="8s" begin="2.6s" repeatCount="indefinite"><mpath href="#c2"/></animateMotion></circle>
+    <circle class="drop" r="3"><animateMotion dur="8s" begin="6.6s" repeatCount="indefinite"><mpath href="#c2"/></animateMotion></circle>
+  </svg>
+</div>
+
+<main class="wrap">
+ <div class="scene">
+  <div class="flipper" id="flipper">
+
+   <!-- FRONT -->
+   <article class="face front tilt" id="front" aria-label="Tarjeta de contacto">
+    <div class="hero" role="img" aria-label="Montaje de un cilindro hidráulico de prensa en planta de celulosa" style="--hero:url('assets/hero.jpg')">
+      <div class="ph"></div><div class="scan"></div>
+      <div class="plate"><img src="assets/logo.jpg" alt="ITH, Ingeniería y Tecnología Hidráulica" width="510" height="305"></div>
+      <div class="live"><i></i>Servicio en terreno</div>
+    </div>
+
+    <header class="id">
+      <h1><span class="w"><span>Eduardo</span></span> <span class="w"><span>Amigo</span></span> <span class="w"><span>Ferrari</span></span></h1>
+      <svg class="sig" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6 7 H294"/><circle cx="6" cy="7" r="5"/><circle cx="294" cy="7" r="5"/><circle class="run" r="3.5" cy="7"><animate attributeName="cx" values="6;294" dur="2.8s" begin="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" dur="2.8s" begin="2.4s" repeatCount="indefinite"/></circle></svg>
+      <p class="role in" style="--d:1">Especialista en sistemas oleohidráulicos</p>
+      <p class="org in" style="--d:2">Ingeniería y Tecnología Hidráulica Ltda.</p>
+      <p class="pitch in" style="--d:3">Mantenimiento, diagnóstico e ingeniería oleohidráulica para mantener operando equipos críticos de industria, minería y celulosa.</p>
+    </header>
+
+    <div class="stats in" style="--d:4" id="stats">
+      <div class="stat"><svg viewBox="0 0 64 38" aria-hidden="true"><path class="arc" d="M6 34 A26 26 0 0 1 58 34"/><path class="val" style="--len:82" d="M6 34 A26 26 0 0 1 58 34"/><g class="wob"><line class="needle" x1="32" y1="34" x2="32" y2="14"/></g></svg><b data-to="2000" data-from="1990">2000</b><small>en terreno desde</small></div>
+      <div class="stat"><svg viewBox="0 0 64 38" aria-hidden="true"><path class="arc" d="M6 34 A26 26 0 0 1 58 34"/><path class="val" style="--len:82" d="M6 34 A26 26 0 0 1 58 34"/><g class="wob"><line class="needle" x1="32" y1="34" x2="32" y2="14"/></g></svg><b data-to="50" data-suffix="+">50+</b><small>años de experiencia acumulada</small></div>
+      <div class="stat"><svg viewBox="0 0 64 38" aria-hidden="true"><path class="arc" d="M6 34 A26 26 0 0 1 58 34"/><path class="val" style="--len:82" d="M6 34 A26 26 0 0 1 58 34"/><g class="wob"><line class="needle" x1="32" y1="34" x2="32" y2="14"/></g></svg><b data-to="27" data-suffix=" h">27 h</b><small>intervención continua · CMPC Laja</small></div>
+    </div>
+
+    <div class="actions">
+      <a class="btn primary in" id="save" data-save style="--d:5" href="assets/eduardo-amigo-ith.vcf" download="Eduardo-Amigo-ITH.vcf">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        Guardar contacto
+      </a>
+      <div class="row3">
+        <a class="btn in" style="--d:6" href="tel:+56998839281"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Llamar</a>
+        <a class="btn wa in" style="--d:7" href="https://wa.me/56998839281?text=Hola%20Eduardo%2C%20te%20contacto%20por%20un%20servicio%20oleohidr%C3%A1ulico." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-5A9 9 0 1 1 8 19.3L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.3-2-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-2L9 9.5z"/></svg>WhatsApp</a>
+        <a class="btn in" style="--d:8" href="mailto:eduardoamigo@ith.cl?subject=Consulta%20servicio%20oleohidr%C3%A1ulico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>Correo</a>
+      </div>
+    </div>
+
+    <ul class="list in rv" style="--d:9">
+      <li><span class="k">Celular</span><span class="v mono"><a href="tel:+56998839281">+56 9 9883 9281</a></span><button class="copy" type="button" data-copy="+56998839281" aria-label="Copiar celular"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></button></li>
+      <li><span class="k">Correo</span><span class="v"><a href="mailto:eduardoamigo@ith.cl">eduardoamigo@ith.cl</a></span><button class="copy" type="button" data-copy="eduardoamigo@ith.cl" aria-label="Copiar correo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></button></li>
+      <li><span class="k">Web</span><span class="v"><a href="https://www.ith.cl" target="_blank" rel="noopener">www.ith.cl</a></span></li>
+      <li><span class="k">Zona</span><span class="v">Chile · unidad de diagnóstico móvil</span></li>
+    </ul>
+
+    <section class="block rv" aria-labelledby="h-spec">
+      <h2 id="h-spec">Especialidades</h2>
+      <div class="spec">
+        <div class="rv"><svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="9" y="8" width="16" height="18" rx="2"/><g class="piston"><path d="M11 14h12"/><path d="M17 14V2"/></g><path d="M13 26v5M21 26v5"/></svg><p style="margin:0"><b>Mantenimiento y overhaul</b><span>Bombas, válvulas, cilindros, microfiltrado y puesta en servicio.</span></p></div>
+        <div class="rv"><svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 24a12 12 0 1 1 24 0"/><path class="ndl" d="M17 24V13"/><circle cx="17" cy="24" r="2"/><path d="M8 18l2 1M26 18l-2 1M17 10v2"/></svg><p style="margin:0"><b>Diagnóstico predictivo</b><span>Presión, caudal, temperatura y limpieza del aceite según ISO 4406.</span></p></div>
+        <div class="rv"><svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="28" height="22" rx="2"/><path class="trace" pathLength="1" d="M8 21h6v-8h6v8h6M8 10h4"/></svg><p style="margin:0"><b>Ingeniería aplicada</b><span>Planes de mantenimiento, memorias de cálculo y planos hidráulicos.</span></p></div>
+      </div>
+      <div class="clients" aria-label="Experiencia">
+        <span>CMPC Laja</span><span>CMPC Pacífico</span><span>CMPC Santa Fe</span><span>ENGIE</span><span>AES Gener</span>
+      </div>
+    </section>
+
+    <section class="block rv" aria-labelledby="h-tec">
+      <h2 id="h-tec">Coordinación técnica</h2>
+      <ul class="list" style="margin:0">
+        <li><span class="k">Correo</span><span class="v"><a href="mailto:earaya@ith.cl">earaya@ith.cl</a></span></li>
+        <li><span class="k">Celular</span><span class="v mono"><a href="tel:+56999966867">+56 9 9996 6867</a></span></li>
+      </ul>
+    </section>
+
+    <div class="foot rv">
+      <div class="row3" style="grid-template-columns:1fr 1fr">
+        <button class="btn" type="button" id="showqr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>Mostrar QR</button>
+        <button class="btn" type="button" data-share><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>Compartir</button>
+      </div>
+      <div class="meta"><span>ITH · Ingeniería y Tecnología Hidráulica Ltda.</span><span>www.ith.cl</span></div>
+    </div>
+   </article>
+
+   <!-- BACK -->
+   <article class="face back" id="back" aria-label="Código QR" aria-hidden="true">
+     <div class="logo"><img src="assets/logo.jpg" alt="ITH" width="510" height="305"></div>
+     <h3>Escanea y guárdame</h3>
+     <div class="qrbox"><div class="beam"></div><img src="assets/qr-contacto.png" alt="Código QR con el contacto de Eduardo Amigo Ferrari" width="240" height="240"></div>
+     <p>Apunta la cámara del celular al código: el contacto se agrega directo a la agenda, sin instalar nada.</p>
+     <div class="btns">
+       <button class="btn primary" type="button" data-share>Compartir enlace</button>
+       <button class="btn" type="button" id="hideqr">Volver a la tarjeta</button>
+     </div>
+   </article>
+
+  </div>
+ </div>
+</main>
+<div class="dock" id="dock">
+  <a class="btn primary" href="assets/eduardo-amigo-ith.vcf" download="Eduardo-Amigo-ITH.vcf" data-save>Guardar contacto</a>
+  <a class="btn icon wa" href="https://wa.me/56998839281" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-5A9 9 0 1 1 8 19.3L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.3-2-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-2L9 9.5z"/></svg></a>
+  <button class="btn icon" type="button" id="dockqr" aria-label="Mostrar QR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></button>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var toast = document.getElementById('toast');
+  function say(t){ toast.textContent=t; toast.hidden=false; clearTimeout(say.t); say.t=setTimeout(function(){toast.hidden=true},2400); }
+  function copy(text, okMsg){
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ say(okMsg||'Copiado'); }, function(){ say(text); });
+    } else say(text);
+  }
+
+  // flip to QR
+  var flipper=document.getElementById('flipper'), front=document.getElementById('front'), back=document.getElementById('back');
+  function flip(on){
+    flipper.classList.toggle('flipped', on);
+    var dk=document.getElementById('dock'); if(dk) dk.classList.toggle('hide', on);
+    back.setAttribute('aria-hidden', !on); front.setAttribute('aria-hidden', on);
+    window.scrollTo({top:0, behavior: reduce?'auto':'smooth'});
+  }
+  document.getElementById('showqr').addEventListener('click', function(){ flip(true); });
+  document.getElementById('hideqr').addEventListener('click', function(){ flip(false); });
+  if (location.hash === '#qr') flip(true);
+
+  // share
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var url = location.href.split('#')[0];
+      var data = {title:'Eduardo Amigo Ferrari · ITH', text:'Contacto de Eduardo Amigo, Ingeniería y Tecnología Hidráulica', url:url};
+      if (navigator.share) { navigator.share(data).catch(function(){}); return; }
+      copy(url, 'Enlace copiado');
+    });
+  });
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click', function(){ copy(b.getAttribute('data-copy')); });
+  });
+
+  // gauges + counters
+  function run(){
+    document.querySelectorAll('.stat').forEach(function(s, i){
+      var v=s.querySelector('.val'), n=s.querySelector('.needle'), b=s.querySelector('b');
+      var frac=[.82,.9,.54][i];
+      setTimeout(function(){
+        v.style.strokeDashoffset = (82*(1-frac)).toFixed(1);
+        n.style.transform = 'rotate(' + (-90 + 180*frac) + 'deg)';
+      }, 60);
+      if (reduce) return;
+      var to=+b.dataset.to, from=+(b.dataset.from||0), suf=b.dataset.suffix||'', t0=null, dur=1600;
+      function step(t){ if(!t0) t0=t; var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+        b.textContent=Math.round(from+(to-from)*e)+suf; if(p<1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // intro: pressurize to 185 bar, then reveal
+  var intro=document.getElementById('intro'), started=false;
+  function begin(){
+    if(started) return; started=true;
+    document.documentElement.classList.remove('pre');
+    if(intro){ intro.classList.add('out'); setTimeout(function(){ intro.remove(); }, 650); }
+    setTimeout(run, reduce?0:1300);
+  }
+  if (reduce || !intro){ begin(); }
+  else {
+    var tk=document.getElementById('ticks'), NS='http://www.w3.org/2000/svg';
+    for (var i=0;i<=10;i++){ var a=Math.PI*(1-i/10), l=document.createElementNS(NS,'line');
+      l.setAttribute('x1',100+70*Math.cos(a)); l.setAttribute('y1',100-70*Math.sin(a));
+      l.setAttribute('x2',100+62*Math.cos(a)); l.setAttribute('y2',100-62*Math.sin(a));
+      l.setAttribute('class','tk'+(i>=9?' r':'')); tk.appendChild(l); }
+    var fill=document.getElementById('ifill'), nd=document.getElementById('ind'), num=document.getElementById('ibar'), msg=document.getElementById('imsg');
+    var L=fill.getTotalLength(), MAX=250, T=185, t0=null, D=1300;
+    function frame(t){ if(!t0) t0=t; var p=Math.min(1,(t-t0)/D), e=1-Math.pow(1-p,3), v=T*e;
+      num.textContent=Math.round(v); fill.style.strokeDasharray=(L*v/MAX)+' 999';
+      nd.style.transform='rotate('+(-90+180*v/MAX)+'deg)';
+      if(p<1) requestAnimationFrame(frame); else { msg.textContent='Presión nominal OK'; msg.className='ok'; setTimeout(begin,450); } }
+    requestAnimationFrame(frame);
+    intro.addEventListener('click', begin);
+    setTimeout(begin, 3500); // safety
+  }
+
+  // scroll reveal
+  if ('IntersectionObserver' in window && !reduce){
+    document.documentElement.classList.add('rv-on');
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv,.clients').forEach(function(el){ io.observe(el); });
+  } else document.querySelectorAll('.rv,.clients').forEach(function(el){ el.classList.add('seen'); });
+
+  // ripple on every button
+  document.addEventListener('pointerdown', function(e){
+    var b=e.target.closest && e.target.closest('.btn'); if(!b || reduce) return;
+    var r=b.getBoundingClientRect(), d=Math.max(r.width,r.height)*2, s=document.createElement('span');
+    s.className='rip'; s.style.width=s.style.height=d+'px'; s.style.left=(e.clientX-r.left-d/2)+'px'; s.style.top=(e.clientY-r.top-d/2)+'px';
+    b.appendChild(s); setTimeout(function(){ s.remove(); },650);
+  });
+
+  // save feedback
+  document.querySelectorAll('[data-save]').forEach(function(a){
+    a.addEventListener('click', function(){ a.classList.remove('done'); void a.offsetWidth; a.classList.add('done'); say('Abriendo contacto para guardar'); });
+  });
+
+  // sticky dock when the main button leaves the screen
+  var dock=document.getElementById('dock'), save=document.getElementById('save');
+  document.getElementById('dockqr').addEventListener('click', function(){ flip(true); });
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ var off=!es[0].isIntersecting && es[0].boundingClientRect.top<0;
+      dock.classList.toggle('show', off && !flipper.classList.contains('flipped')); }).observe(save);
+  }
+
+  // background circuit parallax
+  var stageSvg=document.querySelector('.stage svg');
+  if (!reduce) addEventListener('scroll', function(){ stageSvg.style.transform='translateY('+(-scrollY*0.12)+'px)'; }, {passive:true});
+
+
+  // subtle tilt on desktop pointers
+  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches){
+    front.addEventListener('pointermove', function(e){
+      if (flipper.classList.contains('flipped')) return;
+      var r=front.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      front.style.transform='rotateY('+(x*6)+'deg) rotateX('+(-y*4)+'deg)';
+    });
+    front.addEventListener('pointerleave', function(){ front.style.transform=''; });
+  }
+})();
+</script>
+
+</body>
+</html>
